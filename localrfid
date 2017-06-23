@@ -1,0 +1,34 @@
+// must npm install serialport
+//check and update portName
+
+var serialport = require('serialport');
+   SerialPort = serialport; 
+   
+   portName = '/dev/cu.usbmodem1411';
+
+var myPort = new SerialPort(portName, {
+   baudRate: 9600,
+
+   parser: serialport.parsers.readline("\n")
+ });
+
+myPort.on('open', showPortOpen);
+myPort.on('data', sendSerialData);
+myPort.on('close', showPortClose);
+myPort.on('error', showError);
+
+function showPortOpen() {
+   console.log('port open. Data rate: ' + myPort.options.baudRate);
+}
+ 
+function sendSerialData(data) {
+   console.log(data);
+}
+ 
+function showPortClose() {
+   console.log('port closed.');
+}
+ 
+function showError(error) {
+   console.log('Serial port error: ' + error);
+}
